@@ -127,7 +127,7 @@ where
 /// # extern crate wkt;
 /// # extern crate geo_types;
 /// # extern crate serde_json;
-/// use geo_types::{Point, PointTZM};
+/// use geo_types::Point;
 ///
 /// #[derive(serde::Deserialize)]
 /// struct MyType {
@@ -137,7 +137,7 @@ where
 ///
 /// let json = r#"{ "geometry": "POINT (3.14 42)" }"#;
 /// let my_type: MyType = serde_json::from_str(json).unwrap();
-/// assert!(matches!(my_type.geometry, Some(PointTZM(_))));
+/// assert!(matches!(my_type.geometry, Some(Point(_))));
 ///
 /// let json = r#"{ "geometry": "POINT EMPTY" }"#;
 /// let my_type: MyType = serde_json::from_str(json).unwrap();
@@ -156,7 +156,7 @@ where
         geo_types::Geometry::try_from(wkt)
             .map_err(D::Error::custom)
             .and_then(|geom| {
-                use geo_types::GeometryTZM::*;
+                use geo_types::Geometry::*;
                 match geom {
                     Point(p) => Ok(Some(p)),
                     MultiPoint(mp) if mp.0.is_empty() => Ok(None),
